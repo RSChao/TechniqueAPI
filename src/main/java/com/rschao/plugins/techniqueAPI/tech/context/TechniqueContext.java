@@ -20,6 +20,12 @@ public final class TechniqueContext {
         this.startTime = System.currentTimeMillis();
     }
 
+    public TechniqueContext(Player caster) {
+        this.caster = caster;
+        this.sourceItem = null;
+        this.startTime = System.currentTimeMillis();
+    }
+
     public Player caster() {
         return caster;
     }
