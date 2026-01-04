@@ -12,6 +12,7 @@ public class hotbarMessage {
      * @param player the player to whom the message will be sent
      * @param message the message to be displayed in the hotbar
      */
+    @SuppressWarnings("deprecation")
     public static void sendHotbarMessage(Player player, String message) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacy(message));
     }
