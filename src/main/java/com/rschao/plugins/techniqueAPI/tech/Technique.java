@@ -1,9 +1,11 @@
 package com.rschao.plugins.techniqueAPI.tech;
 
+import com.rschao.plugins.techniqueAPI.event.TechniquePreRunEvent;
 import com.rschao.plugins.techniqueAPI.tech.context.TechniqueContext;
 import com.rschao.plugins.techniqueAPI.tech.cooldown.CooldownManager;
 import com.rschao.plugins.techniqueAPI.tech.feedback.hotbarMessage;
 import com.rschao.plugins.techniqueAPI.tech.selectors.TargetSelector;
+import org.bukkit.Bukkit;
 
 public final class Technique {
 
@@ -36,6 +38,11 @@ public final class Technique {
             hotbarMessage.sendHotbarMessage(ctx.caster(), "On cooldown! Wait " + (remaining/1000.0) + " seconds.");
             return;
         }
+        TechniquePreRunEvent event = new TechniquePreRunEvent(ctx.caster(), this);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return; // Stop execution if cancelled
+        TechniqueInstance instance = createInstance(ctx);
+        instance.start();
     }
 
     public TechniqueInstance createInstance(TechniqueContext context) {
