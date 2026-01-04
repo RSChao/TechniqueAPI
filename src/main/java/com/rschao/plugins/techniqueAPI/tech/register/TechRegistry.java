@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import com.rschao.plugins.techapi.tech.Technique;
+import com.rschao.plugins.techniqueAPI.tech.Technique;
 
 public class TechRegistry {
     private static final Map<String, List<Technique>> fruitTechniques = new HashMap<>();
@@ -27,7 +27,7 @@ public class TechRegistry {
      */
     public static List<Technique> getNormalTechniques(String fruitId) {
         return fruitTechniques.getOrDefault(fruitId, List.of())
-            .stream().filter(t -> !t.isUltimate()).toList();
+            .stream().filter(t -> !t.getMeta().isUltimate()).toList();
     }
     /**
      * Retrieves all ultimate techniques for a specific fruit.
@@ -37,7 +37,7 @@ public class TechRegistry {
 
     public static List<Technique> getUltimateTechniques(String fruitId) {
         return fruitTechniques.getOrDefault(fruitId, List.of())
-            .stream().filter(Technique::isUltimate).toList();
+            .stream().filter(t -> t.getMeta().isUltimate()).toList();
     }
     /**
      * Retrieves all techniques (both normal and ultimate) for a specific fruit.
@@ -93,7 +93,7 @@ public class TechRegistry {
     public static Technique getByName(String name) {
         for (List<Technique> techniques : fruitTechniques.values()) {
             for (Technique technique : techniques) {
-                if (technique.getName().equalsIgnoreCase(name)) {
+                if (technique.getDisplayName().equalsIgnoreCase(name)) {
                     return technique;
                 }
             }
@@ -104,8 +104,8 @@ public class TechRegistry {
     protected static void LogTechnique(Technique t, boolean isRegistering){
         Logger l = Logger.getLogger("TechAPI");
 
-        if(isRegistering) l.info("Registered Technique: " + t.getName() + " (ID: " + t.getId() + ", Ultimate: " + t.isUltimate() + ")");
-        else l.info("Unregistered Technique: " + t.getName() + " (ID: " + t.getId() + ", Ultimate: " + t.isUltimate() + ")");
+        if(isRegistering) l.info("Registered Technique: " + t.getDisplayName() + " (ID: " + t.getId() + ", Ultimate: " + t.getMeta().isUltimate() + ")");
+        else l.info("Unregistered Technique: " + t.getDisplayName() + " (ID: " + t.getId() + ", Ultimate: " + t.getMeta().isUltimate() + ")");
     }
     /**
      * Summarizes the registered techniques for all fruits.
