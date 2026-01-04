@@ -1,6 +1,6 @@
-package com.rschao.plugins.techapi.tech;
+package com.rschao.plugins.techniqueAPI.tech.util;
 
-import com.rschao.plugins.techapi.Plugin;
+import com.rschao.plugins.techniqueAPI.TechAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
@@ -30,7 +30,7 @@ public class PlayerTechniqueManager {
                 inmuneplayers.add(playerId);
                 if(timeSeconds <= 0) return;
                 // Schedule removal after timeSeconds
-                Bukkit.getScheduler().runTaskLater(Plugin.getPlugin(Plugin.class), new Runnable() {
+                Bukkit.getScheduler().runTaskLater(TechAPI.getPlugin(TechAPI.class), new Runnable() {
                     @Override
                     public void run() {
                         inmuneplayers.remove(playerId);
