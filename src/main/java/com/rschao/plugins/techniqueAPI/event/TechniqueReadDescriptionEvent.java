@@ -7,7 +7,7 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
+@SuppressWarnings("unused")
 public class TechniqueReadDescriptionEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private final Player player;
@@ -16,7 +16,6 @@ public class TechniqueReadDescriptionEvent extends Event {
     public TechniqueReadDescriptionEvent(Player player, Technique technique) {
         this.player = player;
         this.technique = technique;
-        this.cancelled = false;
     }
 
     public Player getPlayer() {
