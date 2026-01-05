@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.rschao.plugins.techniqueAPI.tech.Technique;
+import org.bukkit.entity.Player;
 
 public class TechRegistry {
     private static final Map<String, List<Technique>> fruitTechniques = new HashMap<>();
@@ -122,6 +123,26 @@ public class TechRegistry {
         }
         l.info("=== End of Summary ===");
     }
+    public static void summarizeGroupTechniques(Player p, String fruitId){
+        if(!fruitTechniques.containsKey(fruitId)){
+            p.sendMessage("No techniques registered for group ID: " + fruitId);
+            return;
+        }
+        p.sendMessage("=== Group Technique Summary ===");
+        p.sendMessage("ID: " + fruitId);
+        for(Technique technique : fruitTechniques.get(fruitId)){
+            p.sendMessage("    ID: " + technique.getId());
+            p.sendMessage("    Name " + technique.getDisplayName());
+            p.sendMessage("    Ultimate: " + technique.getMeta().isUltimate());
+            p.sendMessage("    Description: ");
+            for(String line : technique.getMeta().getDescription()){
+                p.sendMessage("        " + line);
+            }
+            p.sendMessage("    Cooldown: " + technique.getMeta().getCooldownMillis());
+        }
+        p.sendMessage("=== End of Summary ===");
+    }
+
 
 
 }

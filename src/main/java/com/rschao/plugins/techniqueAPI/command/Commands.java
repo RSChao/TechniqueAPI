@@ -3,6 +3,7 @@ package com.rschao.plugins.techniqueAPI.command;
 import com.rschao.plugins.techniqueAPI.TechAPI;
 import com.rschao.plugins.techniqueAPI.item.Items;
 import com.rschao.plugins.techniqueAPI.tech.feedback.hotbarMessage;
+import com.rschao.plugins.techniqueAPI.tech.register.TechRegistry;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
@@ -49,5 +50,14 @@ public class Commands {
                 TechAPI.INSTANCE.saveConfig();
                 TechAPI.INSTANCE.reloadConfig();
                 hotbarMessage.sendHotbarMessage(player, "You have withdrawn a group (ID: " + groupId + ") from your list.");
+            });
+
+
+    public static CommandAPICommand describeTechnique = new CommandAPICommand("describeTechnique")
+            .withArguments(new StringArgument("id"))
+            .executesPlayer((player, args) -> {
+                // Assuming Items.espada_uno is a valid ItemStack
+                String techniqueId = (String) args.get(0);
+                TechRegistry.summarizeGroupTechniques(player, techniqueId);
             });
 }
