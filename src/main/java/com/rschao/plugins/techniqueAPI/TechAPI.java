@@ -7,10 +7,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Logger;
 
 public final class TechAPI extends JavaPlugin {
-
+    public static TechAPI INSTANCE;
     public static final Logger LOGGER = Logger.getLogger("TechniqueAPI");
     @Override
     public void onEnable() {
+        INSTANCE = this;
         // Plugin startup logic
         LOGGER.info("TechniqueAPI enabled!");
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
