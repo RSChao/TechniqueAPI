@@ -31,6 +31,20 @@ public final class Technique {
         this.action = action;
         this.preRun = preRun;
     }
+    public Technique(
+            String id,
+            String displayName,
+            TechniqueMeta meta,
+            TargetSelector targetSelector,
+            TechniqueAction action
+    ) {
+        this.id = id;
+        this.displayName = displayName;
+        this.meta = meta;
+        this.targetSelector = targetSelector;
+        this.action = action;
+        this.preRun = null;
+    }
 
     public void use(TechniqueContext ctx) {
         if (CooldownManager.isOnCooldown(ctx.caster(), getId())) {
