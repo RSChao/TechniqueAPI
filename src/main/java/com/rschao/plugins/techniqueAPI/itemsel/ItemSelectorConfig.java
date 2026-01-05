@@ -26,6 +26,29 @@ public class ItemSelectorConfig implements Listener {
         Player p = ev.getPlayer();
         if(ev.getItem() == null) return;
         if(ev.getItem().getItemMeta() == null) return;
+        if(ev.getItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(TechAPI.INSTANCE, "abyss_id"), PersistentDataType.STRING)){
+            String abyssId = ev.getItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(TechAPI.INSTANCE, "abyss_id"), PersistentDataType.STRING);
+            if(abyssId == null || abyssId.equals("none")) {
+                p.sendMessage("Group ID es inválido: " + abyssId);
+            }
+            List<String> groupIds = TechAPI.INSTANCE.getConfig().getStringList(sanitizePlayerName(p.getName()) + ".groupids");
+            if(groupIds.size() >= 3){
+                p.sendMessage("You cannot carry more group.");
+                return;
+            }
+            if(groupIds.contains(abyssId)){
+                p.sendMessage("You already have this group.");
+                return;
+            }
+            // Añadir el abyss; si es especial, ocupa 2 ranuras (añadimos el id dos veces)
+            groupIds.add(abyssId);
+            TechAPI.INSTANCE.getConfig().set(sanitizePlayerName(p.getName()) + ".groupids", groupIds);
+            TechAPI.INSTANCE.saveConfig();
+            TechAPI.INSTANCE.reloadConfig();
+            p.sendMessage("You have acquired the group: " + abyssId);
+            ev.getItem().setAmount(0);
+
+        }
 
         if(!ev.getItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(TechAPI.INSTANCE, "channeler"), PersistentDataType.BOOLEAN)) return;
         // Get current group id index for player (default 0)
