@@ -1,5 +1,6 @@
 package com.rschao.plugins.techniqueAPI;
 
+import com.rschao.plugins.techniqueAPI.command.Commands;
 import com.rschao.plugins.techniqueAPI.tech.register.TechRegistry;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,6 +13,12 @@ public final class TechAPI extends JavaPlugin {
     @Override
     public void onEnable() {
         INSTANCE = this;
+        Commands.desc.register(INSTANCE);
+        if(getConfig().getBoolean("use-techapi-implementation", false)) {
+            Commands.container.register(INSTANCE);
+            Commands.withdraw.register(INSTANCE);
+            Commands.command.register(INSTANCE);
+        }
         // Plugin startup logic
         LOGGER.info("TechniqueAPI enabled!");
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {

@@ -1,6 +1,7 @@
 package com.rschao.plugins.techniqueAPI.itemsel;
 
 import com.rschao.plugins.techniqueAPI.TechAPI;
+import com.rschao.plugins.techniqueAPI.event.TechniqueReadDescriptionEvent;
 import com.rschao.plugins.techniqueAPI.tech.Technique;
 import com.rschao.plugins.techniqueAPI.tech.context.TechniqueContext;
 import com.rschao.plugins.techniqueAPI.tech.register.TechRegistry;
@@ -23,6 +24,7 @@ public class ItemSelectorConfig implements Listener {
 
     @EventHandler
     void onPlayerUseTech(PlayerInteractEvent ev){
+        if(!TechAPI.INSTANCE.getConfig().getBoolean("use-techapi-implementation", false)) return;
         Player p = ev.getPlayer();
         if(ev.getItem() == null) return;
         if(ev.getItem().getItemMeta() == null) return;
@@ -33,14 +35,14 @@ public class ItemSelectorConfig implements Listener {
             }
             List<String> groupIds = TechAPI.INSTANCE.getConfig().getStringList(sanitizePlayerName(p.getName()) + ".groupids");
             if(groupIds.size() >= 3){
-                p.sendMessage("You cannot carry more group.");
+                p.sendMessage("You cannot carry more groups.");
                 return;
             }
             if(groupIds.contains(abyssId)){
                 p.sendMessage("You already have this group.");
                 return;
             }
-            // Añadir el abyss; si es especial, ocupa 2 ranuras (añadimos el id dos veces)
+            // Añadir el abyss; si es especial, ocupa 2 ranuras (añadimos el ID dos veces)
             groupIds.add(abyssId);
             TechAPI.INSTANCE.getConfig().set(sanitizePlayerName(p.getName()) + ".groupids", groupIds);
             TechAPI.INSTANCE.saveConfig();
@@ -55,7 +57,7 @@ public class ItemSelectorConfig implements Listener {
         int groupIndex = playerGroupIdIndex.getOrDefault(p.getUniqueId(), 0);
         String groupId = getGroupId(p, groupIndex);
         if (groupId == null || groupId.equals("none")) {
-            p.sendMessage("You have not yet harnessed the abyss.");
+            p.sendMessage("You have not yet harnessed the power.");
             return;
         }
 
@@ -67,13 +69,13 @@ public class ItemSelectorConfig implements Listener {
                 // Cycle group id index (0-2)
                 int maxGroups = getGroupIdCount(p);
                 if (maxGroups == 0) {
-                    p.sendMessage("You have no abyss to switch to! Ask an admin if you think this is an error");
+                    p.sendMessage("You have no group to switch to! Ask an admin if you think this is an error");
                     return;
                 }
                 int newIndex = (groupIndex + 1) % maxGroups;
                 playerGroupIdIndex.put(p.getUniqueId(), newIndex);
                 String newGroupId = getGroupId(p, newIndex).replace("_", " ");
-                p.sendMessage("Your abyss has switched to " + newGroupId);
+                p.sendMessage("Your group has switched to " + newGroupId);
             }
             else{
                 Technique technique = TechRegistry.getAllTechniques(groupId).get(techIndex);
@@ -124,5 +126,30 @@ public class ItemSelectorConfig implements Listener {
             return name.substring(1);
         }
         return name;
+    }
+
+    @EventHandler
+    void onTechniqueDescript(PlayerInteractEvent ev){
+        Player p = ev.getPlayer();
+        if(ev.getItem() == null) return;
+        if(ev.getItem().getItemMeta() == null) return;
+        if(!ev.getItem().getItemMeta().getPersistentDataContainer().has(new NamespacedKey(TechAPI.INSTANCE, "descripstin"), PersistentDataType.BOOLEAN)) return;
+        int groupIndex = playerGroupIdIndex.getOrDefault(p.getUniqueId(), 0);
+        String groupId = getGroupId(p, groupIndex);
+        if (groupId == null || groupId.equals("none")) {
+            p.sendMessage("You have not yet harnessed the abyss.");
+            return;
+        }
+        int techIndex = PlayerTechniqueManager.getCurrentTechnique(p.getUniqueId(), groupId);
+        Technique technique = TechRegistry.getAllTechniques(groupId).get(techIndex);
+        if(technique == null) return;
+        // Open technique description GUI
+        TechniqueReadDescriptionEvent descEvent = new TechniqueReadDescriptionEvent(p, technique);
+        TechAPI.INSTANCE.getServer().getPluginManager().callEvent(descEvent);
+        List<String> description = descEvent.getTechDesc();
+        // Show description to player (e.g., in chat or GUI)
+        for(String line : description){
+            p.sendMessage(line);
+        }
     }
 }
