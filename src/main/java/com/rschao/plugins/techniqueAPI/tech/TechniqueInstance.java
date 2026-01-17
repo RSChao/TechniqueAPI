@@ -5,6 +5,7 @@ import com.rschao.plugins.techniqueAPI.tech.cancel.CancelReason;
 import com.rschao.plugins.techniqueAPI.tech.cancel.CancellationToken;
 import com.rschao.plugins.techniqueAPI.tech.cancel.SimpleCancellationToken;
 import com.rschao.plugins.techniqueAPI.tech.context.TechniqueContext;
+import com.rschao.plugins.techniqueAPI.tech.cooldown.CooldownManager;
 import com.rschao.plugins.techniqueAPI.tech.feedback.hotbarMessage;
 import org.bukkit.Bukkit;
 
@@ -32,10 +33,11 @@ public final class TechniqueInstance {
 
         TechniqueRunEvent event = new TechniqueRunEvent(context.caster(), technique);
         Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) return; // Stop execution if cancelled
+        if (event.isCancelled()) return; // Stop execution if canceled
 
         if (!token.isCancelled()) {
             technique.getAction().execute(context, token);
+            CooldownManager.setCooldown(context.caster(), technique.getId(), technique.getMeta().getCooldownMillis());
         }
     }
 
