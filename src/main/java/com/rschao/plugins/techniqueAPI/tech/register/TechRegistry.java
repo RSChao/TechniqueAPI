@@ -151,7 +151,7 @@ public class TechRegistry {
      * Retrieves a list of all registered fruit IDs.
      * @return a list of registered fruit IDs
      */
-    public List<String> getRegisteredFruitIds() {
+    public static List<String> getRegisteredFruitIds() {
         return new ArrayList<>(fruitTechniques.keySet());
     }
 
