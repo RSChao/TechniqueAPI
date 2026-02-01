@@ -123,6 +123,11 @@ public class TechRegistry {
         }
         l.info("=== End of Summary ===");
     }
+    /**
+     * Summarizes the registered techniques for a specific fruit and sends the summary to a player.
+     * @param p the player to send the summary to
+     * @param fruitId the unique identifier of the fruit
+     */
     public static void summarizeGroupTechniques(Player p, String fruitId){
         if(!fruitTechniques.containsKey(fruitId)){
             p.sendMessage("No techniques registered for group ID: " + fruitId);
@@ -141,6 +146,13 @@ public class TechRegistry {
             p.sendMessage("    Cooldown: " + technique.getMeta().getCooldownMillis());
         }
         p.sendMessage("=== End of Summary ===");
+    }
+    /**
+     * Retrieves a list of all registered fruit IDs.
+     * @return a list of registered fruit IDs
+     */
+    public List<String> getRegisteredFruitIds() {
+        return new ArrayList<>(fruitTechniques.keySet());
     }
 
 
