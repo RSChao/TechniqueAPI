@@ -20,6 +20,8 @@ public final class TechAPI extends JavaPlugin {
         // Plugin startup logic
         LOGGER.info("TechniqueAPI enabled!");
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, TechRegistry::summarizeTechniques, 20L);
+        // Schedule periodic saves every 5 minutes (6000 ticks) to prevent data loss
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, TechniqueNameManager::saveAll, 6000L, 6000L);
     }
 
     @Override
