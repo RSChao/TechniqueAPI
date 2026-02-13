@@ -136,6 +136,7 @@ public class TechRegistry {
         p.sendMessage("=== Group Technique Summary ===");
         p.sendMessage("ID: " + fruitId);
         for(Technique technique : fruitTechniques.get(fruitId)){
+            p.sendMessage("===============================");
             p.sendMessage("    ID: " + technique.getId());
             p.sendMessage("    Name " + technique.getDisplayName());
             p.sendMessage("    Ultimate: " + technique.getMeta().isUltimate());
@@ -144,6 +145,7 @@ public class TechRegistry {
                 p.sendMessage("        " + line);
             }
             p.sendMessage("    Cooldown: " + technique.getMeta().getCooldownMillis());
+            p.sendMessage("===============================");
         }
         p.sendMessage("=== End of Summary ===");
     }
