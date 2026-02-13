@@ -122,6 +122,7 @@ public class TechRegistry {
             l.info("    Ultis: " + getUltimateTechniques(fruitId).size());
         }
         l.info("=== End of Summary ===");
+        l.info("Total Registered Groups: " + fruitTechniques.size());
     }
     /**
      * Summarizes the registered techniques for a specific fruit and sends the summary to a player.
