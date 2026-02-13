@@ -37,13 +37,12 @@ public class Commands {
                 hotbarMessage.sendHotbarMessage(player, "Custom name removed for technique " + techniqueId);
             });
     public static CommandAPICommand clearCustomNames = new CommandAPICommand("clear")
-            .withArguments(new StringArgument("techniqueId"))
             .executesPlayer((player, args) -> {
                 String techniqueId = (String) args.get(0);
-                TechniqueNameManager.clearCustomName(player, techniqueId);
+                TechniqueNameManager.clearAllForPlayer(player);
                 hotbarMessage.sendHotbarMessage(player, "Custom name removed for technique " + techniqueId);
             });
-    public static CommandAPICommand techName = new CommandAPICommand("techName")
+    public static CommandAPICommand techName = new CommandAPICommand("techname")
             .withHelp("Custom tech names", "set <techniqueId> <customName> - Set a custom name for a technique, remove <techniqueId> - Remove the custom name for a technique, clear - Clear all custom names")
             .withSubcommand(setCustomName)
             .withSubcommand(removeCustomName)
