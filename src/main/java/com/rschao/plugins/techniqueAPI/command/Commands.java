@@ -50,4 +50,15 @@ public class Commands {
             .executes((sender, args) -> {
                 sender.sendMessage("Usage: /techName <set/remove/clear> [args]");
             });
+    public static CommandAPICommand groupList = new CommandAPICommand("grouplist")
+            .executesPlayer((player, args) -> {
+                List<String> groupIds = TechRegistry.getRegisteredFruitIds();
+                if (groupIds.isEmpty()) {
+                    hotbarMessage.sendHotbarMessage(player, "No technique groups found.");
+                } else {
+                    for(String groupId : groupIds) {
+                        hotbarMessage.sendHotbarMessage(player, "- " + groupId);
+                    }
+                }
+            });
 }
