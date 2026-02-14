@@ -17,6 +17,7 @@ public final class TechAPI extends JavaPlugin {
         TechniqueNameManager.loadAll();
         Commands.describeTechnique.register(INSTANCE);
         Commands.techName.register(INSTANCE);
+        Commands.groupList.register(INSTANCE);
         // Plugin startup logic
         LOGGER.info("TechniqueAPI enabled!");
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, TechRegistry::summarizeTechniques, 20L);
