@@ -51,7 +51,6 @@ public class CooldownManager {
      * 
      * @param player the player to check
      * @param techniqueId the unique identifier of the technique
-     * @return the cooldown time in milliseconds, or 0 if not set
      */
     public static void removeCooldown(Player player, String techniqueId) {
         Map<String, Long> playerCooldowns = cooldowns.get(player.getUniqueId());
