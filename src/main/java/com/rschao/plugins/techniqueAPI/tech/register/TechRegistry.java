@@ -1,11 +1,13 @@
 package com.rschao.plugins.techniqueAPI.tech.register;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.rschao.plugins.techniqueAPI.TechAPI;
 import com.rschao.plugins.techniqueAPI.tech.Technique;
 import org.bukkit.entity.Player;
 
@@ -156,6 +158,40 @@ public class TechRegistry {
      */
     public static List<String> getRegisteredFruitIds() {
         return new ArrayList<>(fruitTechniques.keySet());
+    }
+
+    /**
+     * Logs a summary of all techniques per fruit group to a file that has the name of the group and the date of the summary. The file should be saved in a "technique_summaries" folder within the plugin's data folder.
+     */
+    public static void logSummaryToFile() {
+        Logger l = Logger.getLogger("TechAPI");
+        String folderPath = TechAPI.INSTANCE.getDataFolder() + "/technique_summaries";
+        java.io.File folder = new java.io.File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        try {
+            for(String fruitId : fruitTechniques.keySet()){
+                String fileName = "technique_summary_" + fruitId + ".txt";
+                java.io.File file = new java.io.File(folderPath + "/" + fileName);
+                java.io.PrintWriter writer = new java.io.PrintWriter(file);
+                for(Technique technique : fruitTechniques.get(fruitId)){
+                    writer.println("===============================");
+                    writer.println("Group ID: " + fruitId);
+                    writer.println("    ID: " + technique.getId());
+                    writer.println("    Name " + technique.getDisplayName());
+                    writer.println("    Ultimate: " + technique.getMeta().isUltimate());
+                    writer.println("    Description: ");
+                    for(String line : technique.getMeta().getDescription()){
+                        writer.println("        " + line);
+                    }
+                    writer.println("    Cooldown: " + technique.getMeta().getCooldownMillis());
+                    writer.println("===============================");
+                }
+            }
+        } catch (java.io.IOException e) {
+            l.severe("Failed to log technique summary to file: " + e.getMessage());
+        }
     }
 
 
