@@ -187,6 +187,7 @@ public class TechRegistry {
                     }
                     writer.println("    Cooldown: " + technique.getMeta().getCooldownMillis());
                     writer.println("===============================");
+                    writer.close();
                 }
             }
         } catch (java.io.IOException e) {
