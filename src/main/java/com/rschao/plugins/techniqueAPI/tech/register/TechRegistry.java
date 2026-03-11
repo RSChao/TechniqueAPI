@@ -170,28 +170,28 @@ public class TechRegistry {
         if (!folder.exists()) {
             folder.mkdirs();
         }
-        try {
-            for(String fruitId : fruitTechniques.keySet()){
-                String fileName = "technique_summary_" + fruitId + ".txt";
-                java.io.File file = new java.io.File(folderPath + "/" + fileName);
-                java.io.PrintWriter writer = new java.io.PrintWriter(file);
-                for(Technique technique : fruitTechniques.get(fruitId)){
+        for (String fruitId : fruitTechniques.keySet()) {
+            String fileName = "technique_summary_" + fruitId + ".txt";
+            java.io.File file = new java.io.File(folderPath + "/" + fileName);
+            try (java.io.PrintWriter writer = new java.io.PrintWriter(new java.io.FileWriter(file, true))) {
+                writer.println("=== Technique Summary for group: " + fruitId + " ===");
+                for (Technique technique : fruitTechniques.get(fruitId)) {
                     writer.println("===============================");
                     writer.println("Group ID: " + fruitId);
                     writer.println("    ID: " + technique.getId());
                     writer.println("    Name " + technique.getDisplayName());
                     writer.println("    Ultimate: " + technique.getMeta().isUltimate());
                     writer.println("    Description: ");
-                    for(String line : technique.getMeta().getDescription()){
+                    for (String line : technique.getMeta().getDescription()) {
                         writer.println("        " + line);
                     }
                     writer.println("    Cooldown: " + technique.getMeta().getCooldownMillis());
                     writer.println("===============================");
-                    writer.close();
                 }
+                writer.println(); // separación entre runs
+            } catch (java.io.IOException e) {
+                l.severe("Failed to write summary for group " + fruitId + ": " + e.getMessage());
             }
-        } catch (java.io.IOException e) {
-            l.severe("Failed to log technique summary to file: " + e.getMessage());
         }
     }
 
