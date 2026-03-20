@@ -3,6 +3,7 @@ package com.rschao.plugins.techniqueAPI.tech.selectors;
 import com.rschao.plugins.techniqueAPI.tech.context.TechniqueContext;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -20,6 +21,10 @@ public final class TargetSelectors {
         return radial(radius, e -> true);
     }
 
+    public static TargetSelector radialPlayers(double radius) {
+        return radial(radius, e -> e instanceof Player);
+    }
+
     public static TargetSelector radial(double radius, Predicate<LivingEntity> filter) {
         return ctx -> {
             Location loc = ctx.caster().getLocation();
@@ -28,6 +33,13 @@ public final class TargetSelectors {
                     .filter(filter)
                     .collect(Collectors.toList());
         };
+    }
+
+    public static TargetSelector closestPlayer(){
+        return closest(Double.MAX_VALUE, e -> e instanceof Player);
+    }
+    public static TargetSelector closestPlayer(double radius){
+        return closest(radius, e -> e instanceof Player);
     }
 
     public static TargetSelector closest(double radius, Predicate<LivingEntity> filter) {
