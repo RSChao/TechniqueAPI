@@ -1,6 +1,6 @@
 package com.rschao.plugins.techniqueAPI.tech.context;
 
-public final class TechKey<T> {
+public final class TechKey {
     private final String name;
 
     public TechKey(String name) {

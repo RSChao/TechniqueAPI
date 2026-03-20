@@ -12,7 +12,7 @@ public final class TechniqueContext {
     private final long startTime;
 
     private Collection<LivingEntity> targets = List.of();
-    private final Map<TechKey<?>, Object> data = new HashMap<>();
+    private final Map<TechKey, Object> data = new HashMap<>();
 
     public TechniqueContext(Player caster, ItemStack sourceItem) {
         this.caster = caster;
@@ -47,11 +47,11 @@ public final class TechniqueContext {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T get(TechKey<T> key) {
+    public <T> T get(TechKey key) {
         return (T) data.get(key);
     }
 
-    public <T> void set(TechKey<T> key, T value) {
+    public <T> void set(TechKey key, T value) {
         data.put(key, value);
     }
 }
