@@ -6,6 +6,8 @@ import com.rschao.plugins.techniqueAPI.tech.cooldown.CooldownManager;
 import com.rschao.plugins.techniqueAPI.tech.feedback.hotbarMessage;
 import com.rschao.plugins.techniqueAPI.tech.selectors.TargetSelector;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public final class Technique {
 
@@ -47,6 +49,34 @@ public final class Technique {
     }
 
     public void use(TechniqueContext ctx) {
+        if (CooldownManager.isOnCooldown(ctx.caster(), getId())) {
+            long remaining = CooldownManager.getRemaining(ctx.caster(), getId());
+            hotbarMessage.sendHotbarMessage(ctx.caster(), "On cooldown! Wait " + (remaining/1000.0) + " seconds.");
+            return;
+        }
+        TechniquePreRunEvent event = new TechniquePreRunEvent(ctx.caster(), this);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return; // Stop execution if cancelled
+        TechniqueInstance instance = createInstance(ctx);
+        instance.start();
+    }
+
+    public void use(Player player) {
+        TechniqueContext ctx = new TechniqueContext(player);
+        if (CooldownManager.isOnCooldown(ctx.caster(), getId())) {
+            long remaining = CooldownManager.getRemaining(ctx.caster(), getId());
+            hotbarMessage.sendHotbarMessage(ctx.caster(), "On cooldown! Wait " + (remaining/1000.0) + " seconds.");
+            return;
+        }
+        TechniquePreRunEvent event = new TechniquePreRunEvent(ctx.caster(), this);
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) return; // Stop execution if cancelled
+        TechniqueInstance instance = createInstance(ctx);
+        instance.start();
+    }
+
+    public void use(Player player, ItemStack item) {
+        TechniqueContext ctx = new TechniqueContext(player, item);
         if (CooldownManager.isOnCooldown(ctx.caster(), getId())) {
             long remaining = CooldownManager.getRemaining(ctx.caster(), getId());
             hotbarMessage.sendHotbarMessage(ctx.caster(), "On cooldown! Wait " + (remaining/1000.0) + " seconds.");

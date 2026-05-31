@@ -20,6 +20,10 @@ public class TechRegistry {
      * @param technique the technique to be registered
      */
     public static void registerTechnique(String fruitId, Technique technique) {
+        List<Technique> techniques = fruitTechniques.get(fruitId);
+        if (techniques != null) {
+            if(techniques.contains(technique)) return;
+        }
         fruitTechniques.computeIfAbsent(fruitId, k -> new ArrayList<>()).add(technique);
         LogTechnique(technique, true);
     }
