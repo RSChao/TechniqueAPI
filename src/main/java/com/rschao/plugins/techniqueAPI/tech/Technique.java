@@ -5,9 +5,12 @@ import com.rschao.plugins.techniqueAPI.tech.context.TechniqueContext;
 import com.rschao.plugins.techniqueAPI.tech.cooldown.CooldownManager;
 import com.rschao.plugins.techniqueAPI.tech.feedback.hotbarMessage;
 import com.rschao.plugins.techniqueAPI.tech.selectors.TargetSelector;
+import com.rschao.plugins.techniqueAPI.tech.selectors.TargetSelectors;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
 
 public final class Technique {
 
@@ -99,4 +102,8 @@ public final class Technique {
     public TargetSelector getTargetSelector() { return targetSelector; }
     public TechniqueAction getAction() { return action; }
     public PreRunHook getPreRunHook() { return preRun; }
+
+    public static Technique empty() {
+        return new Technique("null", "null", new TechniqueMeta(false, 0, new ArrayList<>()), TargetSelectors.self(), (ctx, token) -> {});
+    }
 }
