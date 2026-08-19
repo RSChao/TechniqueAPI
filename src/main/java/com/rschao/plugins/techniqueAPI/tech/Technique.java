@@ -10,9 +10,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public final class Technique {
+public final class Technique implements Serializable {
 
     private final String id;
     private final String displayName;
@@ -39,6 +41,23 @@ public final class Technique {
     public Technique(
             String id,
             String displayName,
+            boolean ulti,
+            int cooldown,
+            List<String> desc,
+            TargetSelector targetSelector,
+            TechniqueAction action,
+            PreRunHook preRun
+    ) {
+        this.id = id;
+        this.displayName = displayName;
+        this.meta = new TechniqueMeta(ulti, cooldown, desc);
+        this.targetSelector = targetSelector;
+        this.action = action;
+        this.preRun = preRun;
+    }
+    public Technique(
+            String id,
+            String displayName,
             TechniqueMeta meta,
             TargetSelector targetSelector,
             TechniqueAction action
@@ -46,6 +65,22 @@ public final class Technique {
         this.id = id;
         this.displayName = displayName;
         this.meta = meta;
+        this.targetSelector = targetSelector;
+        this.action = action;
+        this.preRun = null;
+    }
+    public Technique(
+            String id,
+            String displayName,
+            boolean ulti,
+            int cooldown,
+            List<String> desc,
+            TargetSelector targetSelector,
+            TechniqueAction action
+    ) {
+        this.id = id;
+        this.displayName = displayName;
+        this.meta = new TechniqueMeta(ulti, cooldown, desc);
         this.targetSelector = targetSelector;
         this.action = action;
         this.preRun = null;

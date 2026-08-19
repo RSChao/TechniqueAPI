@@ -30,22 +30,21 @@ public final class TargetSelectors {
             Location loc = ctx.caster().getLocation();
             return loc.getWorld().getLivingEntities().stream()
                     .filter(e -> e.getLocation().distanceSquared(loc) <= radius * radius)
-                    .filter(filter)
+                    .filter(filter).filter(e -> !e.equals(ctx.caster()))
                     .collect(Collectors.toList());
         };
     }
 
     public static TargetSelector closestPlayer(){
-        return closest(Double.MAX_VALUE, e -> e instanceof Player);
+        return closest(Double.MAX_VALUE, e -> (e instanceof Player));
     }
     public static TargetSelector closestPlayer(double radius){
-        return closest(radius, e -> e instanceof Player);
+        return closest(radius, e -> (e instanceof Player));
     }
 
     public static TargetSelector closest(double radius, Predicate<LivingEntity> filter) {
         return ctx -> ctx.caster().getWorld().getLivingEntities().stream()
-                .filter(e -> !e.equals(ctx.caster()))
-                .filter(filter)
+                .filter(filter).filter(e -> !e.equals(ctx.caster()))
                 .filter(e -> e.getLocation().distanceSquared(ctx.caster().getLocation()) <= radius * radius)
                 .min(Comparator.comparingDouble(e -> e.getLocation().distanceSquared(ctx.caster().getLocation())))
                 .map(List::of)

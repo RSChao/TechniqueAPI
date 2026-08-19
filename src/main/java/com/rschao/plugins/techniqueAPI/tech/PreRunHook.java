@@ -2,8 +2,9 @@ package com.rschao.plugins.techniqueAPI.tech;
 
 import com.rschao.plugins.techniqueAPI.tech.context.TechniqueContext;
 
-@FunctionalInterface
-public interface PreRunHook {
+import java.io.Serializable;
+
+public interface PreRunHook extends Serializable{
     /**
      * @param ctx The technique context
      * @param tech The technique being executed

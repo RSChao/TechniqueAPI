@@ -1,8 +1,9 @@
 package com.rschao.plugins.techniqueAPI.tech;
 
+import java.io.Serializable;
 import java.util.List;
 
-public final class TechniqueMeta {
+public final class TechniqueMeta implements Serializable {
 
     private final boolean ultimate;
     private final long cooldownMillis;
