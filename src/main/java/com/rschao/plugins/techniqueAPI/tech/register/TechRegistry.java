@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 
 public class TechRegistry {
     private static final Map<String, List<Technique>> fruitTechniques = new HashMap<>();
+
+    private static final List<TechniqueSubRegistry> subRegistries = new ArrayList<>();
     /**
      * Registers a technique for a specific fruit.
      * This method allows you to add a technique to a fruit's list of techniques.
@@ -197,6 +199,27 @@ public class TechRegistry {
                 l.severe("Failed to write summary for group " + fruitId + ": " + e.getMessage());
             }
         }
+    }
+
+    protected static void registerSubRegistry(TechniqueSubRegistry subRegistry) {
+        subRegistries.add(subRegistry);
+    }
+
+    public static List<TechniqueSubRegistry> getSubRegistries() {
+        return new ArrayList<>(subRegistries);
+    }
+
+    public static TechniqueSubRegistry getSubRegistry(String regId) {
+        for (TechniqueSubRegistry subRegistry : subRegistries) {
+            if (subRegistry.getRegId().equals(regId)) {
+                return subRegistry;
+            }
+        }
+        return empty();
+    }
+
+    public static TechniqueSubRegistry empty(){
+        return new TechniqueSubRegistry("empty", null, null, false, null);
     }
 
 
