@@ -10,6 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +96,7 @@ public final class Technique implements Serializable {
         }
         TechniquePreRunEvent event = new TechniquePreRunEvent(ctx.caster(), this);
         Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) return; // Stop execution if cancelled
+        if (event.isCancelled()) return; // Stop execution if canceled
         TechniqueInstance instance = createInstance(ctx);
         instance.start();
     }
@@ -122,7 +124,7 @@ public final class Technique implements Serializable {
         }
         TechniquePreRunEvent event = new TechniquePreRunEvent(ctx.caster(), this);
         Bukkit.getPluginManager().callEvent(event);
-        if (event.isCancelled()) return; // Stop execution if cancelled
+        if (event.isCancelled()) return; // Stop execution if canceled
         TechniqueInstance instance = createInstance(ctx);
         instance.start();
     }
@@ -140,5 +142,9 @@ public final class Technique implements Serializable {
 
     public static Technique empty() {
         return new Technique("null", "null", new TechniqueMeta(false, 0, new ArrayList<>()), TargetSelectors.self(), (ctx, token) -> {});
+    }
+
+    public void serialize(ObjectOutputStream oos) throws IOException {
+        oos.defaultWriteObject();
     }
 }

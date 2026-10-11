@@ -3,9 +3,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.io.Serializable;
 import java.util.*;
 
-public final class TechniqueContext {
+public final class TechniqueContext implements Serializable {
 
     private final Player caster;
     private final ItemStack sourceItem;

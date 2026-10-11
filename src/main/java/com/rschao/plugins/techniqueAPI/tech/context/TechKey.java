@@ -1,6 +1,8 @@
 package com.rschao.plugins.techniqueAPI.tech.context;
 
-public final class TechKey {
+import java.io.Serializable;
+
+public final class TechKey implements Serializable {
     private final String name;
 
     public TechKey(String name) {

@@ -18,14 +18,18 @@ public final class TargetSelectors {
     }
 
     public static TargetSelector radial(double radius) {
-        return radial(radius, e -> true);
+        return radial(radius, (SerializablePredicate<LivingEntity>) e -> true);
     }
 
     public static TargetSelector radialPlayers(double radius) {
-        return radial(radius, e -> e instanceof Player);
+        return radial(radius, (SerializablePredicate<LivingEntity>) e -> e instanceof Player);
     }
 
     public static TargetSelector radial(double radius, Predicate<LivingEntity> filter) {
+        return radial(radius, (SerializablePredicate<LivingEntity>) filter::test);
+    }
+
+    public static TargetSelector radial(double radius, SerializablePredicate<LivingEntity> filter) {
         return ctx -> {
             Location loc = ctx.caster().getLocation();
             return loc.getWorld().getLivingEntities().stream()
@@ -36,13 +40,17 @@ public final class TargetSelectors {
     }
 
     public static TargetSelector closestPlayer(){
-        return closest(Double.MAX_VALUE, e -> (e instanceof Player));
+        return closest(Double.MAX_VALUE, (SerializablePredicate<LivingEntity>) e -> e instanceof Player);
     }
     public static TargetSelector closestPlayer(double radius){
-        return closest(radius, e -> (e instanceof Player));
+        return closest(radius, (SerializablePredicate<LivingEntity>) e -> e instanceof Player);
     }
 
     public static TargetSelector closest(double radius, Predicate<LivingEntity> filter) {
+        return closest(radius, (SerializablePredicate<LivingEntity>) filter::test);
+    }
+
+    public static TargetSelector closest(double radius, SerializablePredicate<LivingEntity> filter) {
         return ctx -> ctx.caster().getWorld().getLivingEntities().stream()
                 .filter(filter).filter(e -> !e.equals(ctx.caster()))
                 .filter(e -> e.getLocation().distanceSquared(ctx.caster().getLocation()) <= radius * radius)

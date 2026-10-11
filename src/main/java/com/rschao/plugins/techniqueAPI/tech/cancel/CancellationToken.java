@@ -1,6 +1,8 @@
 package com.rschao.plugins.techniqueAPI.tech.cancel;
 
-public interface CancellationToken {
+import java.io.Serializable;
+
+public interface CancellationToken extends Serializable {
     boolean isCancelled();
     CancelReason getReason();
     void cancel(CancelReason reason);

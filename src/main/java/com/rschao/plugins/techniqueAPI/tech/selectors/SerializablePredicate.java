@@ -1,0 +1,8 @@
+package com.rschao.plugins.techniqueAPI.tech.selectors;
+
+import java.io.Serializable;
+import java.util.function.Predicate;
+
+@FunctionalInterface
+public interface SerializablePredicate<T> extends Predicate<T>, Serializable {
+}
