@@ -4,8 +4,6 @@ import com.rschao.plugins.techniqueAPI.command.Commands;
 import com.rschao.plugins.techniqueAPI.event.io.IOTestEvent;
 import com.rschao.plugins.techniqueAPI.tech.register.TechRegistry;
 import com.rschao.plugins.techniqueAPI.tech.register.TechniqueNameManager;
-import com.rschao.plugins.techniqueAPI.tech.test.FileSerializationTest;
-import com.rschao.plugins.techniqueAPI.tutorial.Ejemplo;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,9 +26,6 @@ public final class TechAPI extends JavaPlugin {
         // Schedule periodic saves every 5 minutes (6000 ticks) to prevent data loss
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, TechniqueNameManager::saveAll, 6000L, 6000L);
         Bukkit.getPluginManager().registerEvents(new IOTestEvent(), this);
-        FileSerializationTest.createTestTechniques();
-        Ejemplo ejemplo = new Ejemplo();
-        ejemplo.funcion();
     }
 
     @Override
