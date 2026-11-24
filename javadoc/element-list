@@ -1,0 +1,14 @@
+com.rschao.plugins.techniqueAPI
+com.rschao.plugins.techniqueAPI.command
+com.rschao.plugins.techniqueAPI.event
+com.rschao.plugins.techniqueAPI.event.io
+com.rschao.plugins.techniqueAPI.tech
+com.rschao.plugins.techniqueAPI.tech.awakening
+com.rschao.plugins.techniqueAPI.tech.cancel
+com.rschao.plugins.techniqueAPI.tech.context
+com.rschao.plugins.techniqueAPI.tech.cooldown
+com.rschao.plugins.techniqueAPI.tech.feedback
+com.rschao.plugins.techniqueAPI.tech.register
+com.rschao.plugins.techniqueAPI.tech.selectors
+com.rschao.plugins.techniqueAPI.tech.test
+com.rschao.plugins.techniqueAPI.tech.util
