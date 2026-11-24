@@ -5,6 +5,7 @@ import com.rschao.plugins.techniqueAPI.event.io.IOTestEvent;
 import com.rschao.plugins.techniqueAPI.tech.register.TechRegistry;
 import com.rschao.plugins.techniqueAPI.tech.register.TechniqueNameManager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Mob;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -25,7 +26,7 @@ public final class TechAPI extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncDelayedTask(this, TechRegistry::logSummaryToFile, 20L);
         // Schedule periodic saves every 5 minutes (6000 ticks) to prevent data loss
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, TechniqueNameManager::saveAll, 6000L, 6000L);
-        Bukkit.getPluginManager().registerEvents(new IOTestEvent(), this);
+        //Bukkit.getPluginManager().registerEvents(new IOTestEvent(), this);
     }
 
     @Override
